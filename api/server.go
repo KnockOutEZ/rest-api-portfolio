@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/KnockOutEZ/rest-api-portfolio/api/controllers"
-	// "github.com/KnockOutEZ/rest-api-portfolio/api/seed"
 	"github.com/joho/godotenv"
 )
 

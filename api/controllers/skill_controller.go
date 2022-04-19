@@ -39,7 +39,7 @@ func (server *Server) CreateSkill(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
-	if uid != skill.AuthorID {
+	if uid != skill.UserID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
@@ -49,7 +49,7 @@ func (server *Server) CreateSkill(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusInternalServerError, formattedError)
 		return
 	}
-	w.Header().Set("Lacation", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, skillCreated.ID))
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, skillCreated.ID))
 	responses.JSON(w, http.StatusCreated, skillCreated)
 }
 
@@ -122,7 +122,7 @@ func (server *Server) UpdateSkill(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// If a user attempt to update a skill not belonging to him
-	if uid != skill.AuthorID {
+	if uid != skill.UserID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
@@ -142,7 +142,7 @@ func (server *Server) UpdateSkill(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Also check if the request user id is equal to the one gotten from token
-	if uid != skillUpdate.AuthorID {
+	if uid != skillUpdate.UserID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
@@ -193,7 +193,7 @@ func (server *Server) DeleteSkill(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Is the authenticated user, the owner of this skill?
-	if uid != skill.AuthorID {
+	if uid != skill.UserID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
