@@ -78,6 +78,40 @@ func (p *Skill) FindAllSkills(db *gorm.DB) (*[]Skill, error) {
 	return &skills, nil
 }
 
+func (p *Skill) GoFindAllMySkills(db *gorm.DB, uid uint64) (*[]Skill, error) {
+	var err error
+	skills := []Skill{}
+	err = db.Debug().Model(&Skill{}).Where("user_id = ?", uid).Limit(100).Find(&skills).Error
+	if err != nil {
+		return &[]Skill{}, err
+	}
+	if len(skills) > 0 {
+		for i, _ := range skills {
+			log.Println(skills[i].UserID)
+			err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Take(&skills[i].User).Error
+			if err != nil {
+				return &[]Skill{}, err
+			}
+		}
+	}
+	return &skills, nil
+}
+
+func (p *Skill) GoFindSkillByID(db *gorm.DB, pid uint64,uid uint64) (*Skill, error) {
+	var err error
+	err = db.Debug().Model(&Skill{}).Where("id = ?", pid).Where("user_id = ?", uid).Take(&p).Error
+	if err != nil {
+		return &Skill{}, err
+	}
+	if p.ID != 0 {
+		err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
+		if err != nil {
+			return &Skill{}, err
+		}
+	}
+	return p, nil
+}
+
 func (p *Skill) FindAllMySkills(db *gorm.DB, uid uint32) (*[]Skill, error) {
 	var err error
 	skills := []Skill{}

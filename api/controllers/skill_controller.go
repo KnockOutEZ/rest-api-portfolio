@@ -53,6 +53,37 @@ func (server *Server) CreateSkill(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, skillCreated)
 }
 
+func (server *Server) GoGetAllSkills(w http.ResponseWriter, r *http.Request) {
+	key := mux.Vars(r)
+	uid, err := strconv.ParseUint(key["key"], 10, 64)
+	skill := models.Skill{}
+	skills, err := skill.GoFindAllMySkills(server.DB, uid)
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, skills)
+}
+
+func (server *Server) GoGetOneSkills(w http.ResponseWriter, r *http.Request) {
+
+	key := mux.Vars(r)
+	uid, err := strconv.ParseUint(key["key"], 10, 64)
+	pid, err := strconv.ParseUint(key["id"], 10, 64)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	skill := models.Skill{}
+
+	skillReceived, err := skill.GoFindSkillByID(server.DB, pid,uid)
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, skillReceived)
+}
+
 func (server *Server) GetSkills(w http.ResponseWriter, r *http.Request) {
 
 	skill := models.Skill{}
@@ -66,7 +97,6 @@ func (server *Server) GetSkills(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) GetMySkills(w http.ResponseWriter, r *http.Request) {
-
 	skill := models.Skill{}
 	uid, err := auth.ExtractTokenID(r)
 	skills, err := skill.FindAllMySkills(server.DB, uid)
@@ -76,6 +106,8 @@ func (server *Server) GetMySkills(w http.ResponseWriter, r *http.Request) {
 	}
 	responses.JSON(w, http.StatusOK, skills)
 }
+
+
 
 func (server *Server) GetSkill(w http.ResponseWriter, r *http.Request) {
 
