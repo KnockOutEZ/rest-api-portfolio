@@ -47,11 +47,11 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	server.DB.Debug().AutoMigrate(&models.User{}, &models.Skill{}) //database migration
 
 	server.Router = mux.NewRouter()
-
+	
 	server.initializeRoutes()
 }
 
 func (server *Server) Run(addr string) {
-	fmt.Println("Listening to port 8080")
+	fmt.Println("\n Listening to port 8080")
 	log.Fatal(http.ListenAndServe(addr, server.Router))
 }
