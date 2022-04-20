@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"html"
-	"log"
 	"strings"
 	"time"
 
@@ -18,7 +17,7 @@ type Skill struct {
 	SkillIcon        string    `gorm:"size:255;" json:"skill_icon"`
 	SkillProgress    string    `gorm:"size:255;" json:"skill_progress"`
 	SkillLinks       string    `gorm:"size:255;" json:"skill_links"`
-	User             User      `json:"user"`
+	User             User      `json:"-"`
 	UserID           uint32    `gorm:"UNIQUE_INDEX:compositeindex;not null" json:"user_id"`
 	CreatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
@@ -50,12 +49,12 @@ func (p *Skill) SaveSkill(db *gorm.DB) (*Skill, error) {
 	if err != nil {
 		return &Skill{}, err
 	}
-	if p.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
-		if err != nil {
-			return &Skill{}, err
-		}
-	}
+	// if p.ID != 0 {
+	// 	err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
+	// 	if err != nil {
+	// 		return &Skill{}, err
+	// 	}
+	// }
 	return p, nil
 }
 
@@ -66,15 +65,15 @@ func (p *Skill) FindAllSkills(db *gorm.DB) (*[]Skill, error) {
 	if err != nil {
 		return &[]Skill{}, err
 	}
-	if len(skills) > 0 {
-		for i, _ := range skills {
-			log.Println(skills[i].UserID)
-			err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Find(&skills[i].User).Error
-			if err != nil {
-				return &[]Skill{}, err
-			}
-		}
-	}
+	// if len(skills) > 0 {
+	// 	for i, _ := range skills {
+	// 		log.Println(skills[i].UserID)
+	// 		err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Find(&skills[i].User).Error
+	// 		if err != nil {
+	// 			return &[]Skill{}, err
+	// 		}
+	// 	}
+	// }
 	return &skills, nil
 }
 
@@ -85,30 +84,30 @@ func (p *Skill) GoFindAllMySkills(db *gorm.DB, uid uint64) (*[]Skill, error) {
 	if err != nil {
 		return &[]Skill{}, err
 	}
-	if len(skills) > 0 {
-		for i, _ := range skills {
-			log.Println(skills[i].UserID)
-			err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Take(&skills[i].User).Error
-			if err != nil {
-				return &[]Skill{}, err
-			}
-		}
-	}
+	// if len(skills) > 0 {
+	// 	for i, _ := range skills {
+	// 		log.Println(skills[i].UserID)
+	// 		err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Take(&skills[i].User).Error
+	// 		if err != nil {
+	// 			return &[]Skill{}, err
+	// 		}
+	// 	}
+	// }
 	return &skills, nil
 }
 
-func (p *Skill) GoFindSkillByID(db *gorm.DB, pid uint64,uid uint64) (*Skill, error) {
+func (p *Skill) GoFindSkillByID(db *gorm.DB, pid uint64, uid uint64) (*Skill, error) {
 	var err error
 	err = db.Debug().Model(&Skill{}).Where("id = ?", pid).Where("user_id = ?", uid).Take(&p).Error
 	if err != nil {
 		return &Skill{}, err
 	}
-	if p.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
-		if err != nil {
-			return &Skill{}, err
-		}
-	}
+	// if p.ID != 0 {
+	// 	err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
+	// 	if err != nil {
+	// 		return &Skill{}, err
+	// 	}
+	// }
 	return p, nil
 }
 
@@ -119,15 +118,15 @@ func (p *Skill) FindAllMySkills(db *gorm.DB, uid uint32) (*[]Skill, error) {
 	if err != nil {
 		return &[]Skill{}, err
 	}
-	if len(skills) > 0 {
-		for i, _ := range skills {
-			log.Println(skills[i].UserID)
-			err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Take(&skills[i].User).Error
-			if err != nil {
-				return &[]Skill{}, err
-			}
-		}
-	}
+	// if len(skills) > 0 {
+	// 	for i, _ := range skills {
+	// 		log.Println(skills[i].UserID)
+	// 		err := db.Debug().Model(&User{}).Where("id = ?", skills[i].UserID).Take(&skills[i].User).Error
+	// 		if err != nil {
+	// 			return &[]Skill{}, err
+	// 		}
+	// 	}
+	// }
 	return &skills, nil
 }
 
@@ -137,12 +136,12 @@ func (p *Skill) FindSkillByID(db *gorm.DB, pid uint64) (*Skill, error) {
 	if err != nil {
 		return &Skill{}, err
 	}
-	if p.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
-		if err != nil {
-			return &Skill{}, err
-		}
-	}
+	// if p.ID != 0 {
+	// 	err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
+	// 	if err != nil {
+	// 		return &Skill{}, err
+	// 	}
+	// }
 	return p, nil
 }
 
@@ -150,16 +149,16 @@ func (p *Skill) UpdateASkill(db *gorm.DB) (*Skill, error) {
 
 	var err error
 
-	err = db.Debug().Model(&Skill{}).Where("id = ?", p.ID).Updates(Skill{SkillName: p.SkillName, SkillDescription: p.SkillDescription, SkillTitle: p.SkillTitle, SkillIcon: p.SkillIcon, SkillProgress: p.SkillProgress,SkillLinks: p.SkillLinks, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(&Skill{}).Where("id = ?", p.ID).Updates(Skill{SkillName: p.SkillName, SkillDescription: p.SkillDescription, SkillTitle: p.SkillTitle, SkillIcon: p.SkillIcon, SkillProgress: p.SkillProgress, SkillLinks: p.SkillLinks, UpdatedAt: time.Now()}).Error
 	if err != nil {
 		return &Skill{}, err
 	}
-	if p.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
-		if err != nil {
-			return &Skill{}, err
-		}
-	}
+	// if p.ID != 0 {
+	// 	err = db.Debug().Model(&User{}).Where("id = ?", p.UserID).Take(&p.User).Error
+	// 	if err != nil {
+	// 		return &Skill{}, err
+	// 	}
+	// }
 	return p, nil
 }
 
