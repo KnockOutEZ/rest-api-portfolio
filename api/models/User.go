@@ -13,19 +13,19 @@ import (
 )
 
 type User struct {
-	ID           uint32    `gorm:"primary_key;auto_increment" json:"id"`
-	Nickname     string    `gorm:"size:255;not null" json:"nickname"`
-	Age          string    `gorm:"size:255;" json:"age"`
-	Moto         string    `gorm:"size:255;" json:"your_moto"`
-	AboutYou     string    `gorm:"size:255;" json:"about_you"`
-	WhatDoYouDo  string    `gorm:"size:255;" json:"what_do_you_do"`
-	PhoneNum     string    `gorm:"size:255;" json:"phone_number"`
-	ProfileImage string    `gorm:"size:255;" json:"profile_img"`
-	ProfileIcon  string    `gorm:"size:255;" json:"profile_icon"`
-	Email        string    `gorm:"size:100;not null;unique" json:"email"`
-	Password     string    `gorm:"size:100;not null;" json:"password"`
-	CreatedAt    time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt    time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	ID          uint32    `gorm:"primary_key;auto_increment" json:"id"`
+	Nickname    string    `gorm:"size:255;not null" json:"nickname"`
+	Age         string    `gorm:"size:100;" json:"age"`
+	Moto        string    `gorm:"size:100;" json:"moto"`
+	AboutYou    string    `gorm:"size:100;" json:"about_you"`
+	WhatDoYouDo string    `gorm:"size:100;" json:"what_do_you_do"`
+	PhoneNumber string    `gorm:"size:100;" json:"phone_number"`
+	ProfileImg  string    `gorm:"size:100;" json:"profile_img"`
+	ProfileIcon string    `gorm:"size:100;" json:"profile_icon"`
+	Email       string    `gorm:"size:100;not null;unique" json:"email"`
+	Password    string    `gorm:"size:100;not null;" json:"password"`
+	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func Hash(password string) ([]byte, error) {
@@ -52,9 +52,9 @@ func (u *User) Prepare() {
 	u.Moto = html.EscapeString(strings.TrimSpace(u.Moto))
 	u.AboutYou = html.EscapeString(strings.TrimSpace(u.AboutYou))
 	u.WhatDoYouDo = html.EscapeString(strings.TrimSpace(u.WhatDoYouDo))
-	u.PhoneNum = html.EscapeString(strings.TrimSpace(u.PhoneNum))
-	u.ProfileImage = html.EscapeString(strings.TrimSpace(u.ProfileImage))
-	u.ProfileIcon = html.EscapeString(strings.TrimSpace(u.ProfileIcon))
+	// u.PhoneNum = html.EscapeString(strings.TrimSpace(u.PhoneNum))
+	// u.ProfileImage = html.EscapeString(strings.TrimSpace(u.ProfileImage))
+	// u.ProfileIcon = html.EscapeString(strings.TrimSpace(u.ProfileIcon))
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
 	u.CreatedAt = time.Now()
 	u.UpdatedAt = time.Now()
@@ -119,7 +119,7 @@ func (u *User) SaveUser(db *gorm.DB) (*User, error) {
 func (u *User) FindAllUsers(db *gorm.DB) (*[]User, error) {
 	var err error
 	users := []User{}
-	err = db.Debug().Model(&User{}).Limit(100).Find(&users).Error
+	err = db.Debug().Model(&User{}).Find(&users).Error
 	if err != nil {
 		return &[]User{}, err
 	}
@@ -151,11 +151,11 @@ func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 			"nickname":       u.Nickname,
 			"email":          u.Email,
 			"age":            u.Age,
-			"your_moto":      u.Moto,
+			"moto":           u.Moto,
 			"about_you":      u.AboutYou,
 			"what_do_you_do": u.WhatDoYouDo,
-			"phone_number":   u.PhoneNum,
-			"profile_img":    u.ProfileImage,
+			"phone_number":   u.PhoneNumber,
+			"profile_img":    u.ProfileImg,
 			"profile_icon":   u.ProfileIcon,
 			"updated_at":     time.Now(),
 		},
@@ -163,6 +163,7 @@ func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 	if db.Error != nil {
 		return &User{}, db.Error
 	}
+
 	// This is the display the updated user
 	err = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
 	if err != nil {
