@@ -8,7 +8,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
@@ -46,7 +45,7 @@ func ExtractToken(r *http.Request) string {
 	if token != "" {
 		return token
 	}
-	bearerToken := r.Header.Get("Authorization")
+	bearerToken := r.Header.Get("authorization")
 	if len(strings.Split(bearerToken, " ")) == 2 {
 		return strings.Split(bearerToken, " ")[1]
 	}
