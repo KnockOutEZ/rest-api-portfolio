@@ -14,16 +14,16 @@ import (
 
 type User struct {
 	ID          uint32    `gorm:"primary_key;auto_increment" json:"id"`
-	Nickname    string    `gorm:"size:255;not null" json:"nickname"`
-	Age         string    `gorm:"size:100;" json:"age"`
-	Moto        string    `gorm:"size:100;" json:"moto"`
-	AboutYou    string    `gorm:"size:100;" json:"about_you"`
-	WhatDoYouDo string    `gorm:"size:100;" json:"what_do_you_do"`
-	PhoneNumber string    `gorm:"size:100;" json:"phone_number"`
-	ProfileImg  string    `gorm:"size:100;" json:"profile_img"`
-	ProfileIcon string    `gorm:"size:100;" json:"profile_icon"`
-	Email       string    `gorm:"size:100;not null;unique" json:"email"`
-	Password    string    `gorm:"size:100;not null;" json:"password"`
+	Name    string    `gorm:"size:255;not null" json:"name"`
+	Age         string    `gorm:"size:255;" json:"age"`
+	Moto        string    `gorm:"size:255;" json:"moto"`
+	AboutYou    string    `gorm:"size:255;" json:"about_you"`
+	WhatDoYouDo string    `gorm:"size:255;" json:"what_do_you_do"`
+	PhoneNumber string    `gorm:"size:255;" json:"phone_number"`
+	ProfileImg  string    `gorm:"size:255;" json:"profile_img"`
+	ProfileIcon string    `gorm:"size:255;" json:"profile_icon"`
+	Email       string    `gorm:"size:255;not null;unique" json:"email"`
+	Password    string    `gorm:"size:255;not null;" json:"password"`
 	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
@@ -47,7 +47,7 @@ func (u *User) BeforeSave() error {
 
 func (u *User) Prepare() {
 	u.ID = 0
-	u.Nickname = html.EscapeString(strings.TrimSpace(u.Nickname))
+	u.Name = html.EscapeString(strings.TrimSpace(u.Name))
 	u.Age = html.EscapeString(strings.TrimSpace(u.Age))
 	u.Moto = html.EscapeString(strings.TrimSpace(u.Moto))
 	u.AboutYou = html.EscapeString(strings.TrimSpace(u.AboutYou))
@@ -63,8 +63,8 @@ func (u *User) Prepare() {
 func (u *User) Validate(action string) error {
 	switch strings.ToLower(action) {
 	case "update":
-		if u.Nickname == "" {
-			return errors.New("Required Nickname")
+		if u.Name == "" {
+			return errors.New("Required Name")
 		}
 		if u.Password == "" {
 			return errors.New("Required Password")
@@ -90,8 +90,8 @@ func (u *User) Validate(action string) error {
 		return nil
 
 	default:
-		if u.Nickname == "" {
-			return errors.New("Required Nickname")
+		if u.Name == "" {
+			return errors.New("Required Name")
 		}
 		if u.Password == "" {
 			return errors.New("Required Password")
@@ -148,7 +148,7 @@ func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).UpdateColumns(
 		map[string]interface{}{
 			"password":       u.Password,
-			"nickname":       u.Nickname,
+			"name":       u.Name,
 			"email":          u.Email,
 			"age":            u.Age,
 			"moto":           u.Moto,
