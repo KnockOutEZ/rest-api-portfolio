@@ -12,7 +12,7 @@ func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		//start cors
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
 		//till here
 		next.ServeHTTP(w, r)
@@ -28,7 +28,7 @@ func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		//start cors
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
 		//till here
 		next.ServeHTTP(w, r)
