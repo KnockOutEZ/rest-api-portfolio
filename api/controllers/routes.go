@@ -27,6 +27,16 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/skills/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateSkill))).Methods("PUT")
 	s.Router.HandleFunc("/skills/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteSkill)).Methods("DELETE")
 
+	//Projects routes
+	s.Router.HandleFunc("/projects", middlewares.SetMiddlewareJSON(s.CreateProject)).Methods("POST")
+	s.Router.HandleFunc("/myprojects", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetMyProjects))).Methods("GET")
+	s.Router.HandleFunc("/projects/{id}", middlewares.SetMiddlewareJSON(s.GetProject)).Methods("GET")
+	//public route start
+	s.Router.HandleFunc("/{key}/myprojects", middlewares.SetMiddlewareJSON(s.GoGetAllProjects)).Methods("GET")
+	s.Router.HandleFunc("/{key}/myprojects/{id}", middlewares.SetMiddlewareJSON(s.GoGetOneProjects)).Methods("GET")
+	//public route end
+	s.Router.HandleFunc("/projects/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateProject))).Methods("PUT")
+	s.Router.HandleFunc("/projects/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteProject)).Methods("DELETE")
 
 	//SkillAreas routes
 	s.Router.HandleFunc("/skillareas", middlewares.SetMiddlewareJSON(s.CreateSkillArea)).Methods("POST")
@@ -42,5 +52,6 @@ func (s *Server) initializeRoutes() {
 	//routes for admin
 	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.GetUsers)).Methods("GET")
 	s.Router.HandleFunc("/skills", middlewares.SetMiddlewareJSON(s.GetSkills)).Methods("GET")
+	s.Router.HandleFunc("/projects", middlewares.SetMiddlewareJSON(s.GetProjects)).Methods("GET")
 	s.Router.HandleFunc("/skillareas", middlewares.SetMiddlewareJSON(s.GetSkillAreas)).Methods("GET")
 }
