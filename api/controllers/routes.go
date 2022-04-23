@@ -49,9 +49,22 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/skillareas/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateSkillArea))).Methods("PUT")
 	s.Router.HandleFunc("/skillareas/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteSkillArea)).Methods("DELETE")
 
+
+	//ProfessionalExp routes
+	s.Router.HandleFunc("/professional", middlewares.SetMiddlewareJSON(s.CreateProfessionalExp)).Methods("POST")
+	s.Router.HandleFunc("/myprofessional", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetMyProfessionalExps))).Methods("GET")
+	s.Router.HandleFunc("/professional/{id}", middlewares.SetMiddlewareJSON(s.GetProfessionalExp)).Methods("GET")
+	//public route start
+	s.Router.HandleFunc("/{key}/myprofessional", middlewares.SetMiddlewareJSON(s.GoGetAllProfessionalExps)).Methods("GET")
+	s.Router.HandleFunc("/{key}/myprofessional/{id}", middlewares.SetMiddlewareJSON(s.GoGetOneProfessionalExps)).Methods("GET")
+	//public route end
+	s.Router.HandleFunc("/professional/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateProfessionalExp))).Methods("PUT")
+	s.Router.HandleFunc("/professional/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteProfessionalExp)).Methods("DELETE")
+
 	//routes for admin
 	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.GetUsers)).Methods("GET")
 	s.Router.HandleFunc("/skills", middlewares.SetMiddlewareJSON(s.GetSkills)).Methods("GET")
+	s.Router.HandleFunc("/professional", middlewares.SetMiddlewareJSON(s.GetProfessionalExp)).Methods("GET")
 	s.Router.HandleFunc("/projects", middlewares.SetMiddlewareJSON(s.GetProjects)).Methods("GET")
 	s.Router.HandleFunc("/skillareas", middlewares.SetMiddlewareJSON(s.GetSkillAreas)).Methods("GET")
 }
