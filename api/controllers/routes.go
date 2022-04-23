@@ -71,10 +71,35 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/professional/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateProfessionalExp))).Methods("PUT")
 	s.Router.HandleFunc("/professional/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteProfessionalExp)).Methods("DELETE")
 
+	//Hobbys routes
+	s.Router.HandleFunc("/hobbies", middlewares.SetMiddlewareJSON(s.CreateHobby)).Methods("POST")
+	s.Router.HandleFunc("/myhobbies", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetMyHobbys))).Methods("GET")
+	s.Router.HandleFunc("/hobbies/{id}", middlewares.SetMiddlewareJSON(s.GetHobby)).Methods("GET")
+	//public route start
+	s.Router.HandleFunc("/{key}/myhobbies", middlewares.SetMiddlewareJSON(s.GoGetAllHobbys)).Methods("GET")
+	s.Router.HandleFunc("/{key}/myhobbies/{id}", middlewares.SetMiddlewareJSON(s.GoGetOneHobbys)).Methods("GET")
+	//public route end
+	s.Router.HandleFunc("/hobbies/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateHobby))).Methods("PUT")
+	s.Router.HandleFunc("/hobbies/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteHobby)).Methods("DELETE")
+
+	//Socials routes
+	s.Router.HandleFunc("/socials", middlewares.SetMiddlewareJSON(s.CreateSocials)).Methods("POST")
+	s.Router.HandleFunc("/mysocials", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.GetMySocialss))).Methods("GET")
+	s.Router.HandleFunc("/socials/{id}", middlewares.SetMiddlewareJSON(s.GetSocials)).Methods("GET")
+	//public route start
+	s.Router.HandleFunc("/{key}/mysocials", middlewares.SetMiddlewareJSON(s.GoGetAllSocialss)).Methods("GET")
+	s.Router.HandleFunc("/{key}/mysocials/{id}", middlewares.SetMiddlewareJSON(s.GoGetOneSocialss)).Methods("GET")
+	//public route end
+	s.Router.HandleFunc("/socials/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateSocials))).Methods("PUT")
+	s.Router.HandleFunc("/socials/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteSocials)).Methods("DELETE")
+
 	//routes for admin
 	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.GetUsers)).Methods("GET")
 	s.Router.HandleFunc("/skills", middlewares.SetMiddlewareJSON(s.GetSkills)).Methods("GET")
 	s.Router.HandleFunc("/professional", middlewares.SetMiddlewareJSON(s.GetProfessionalExp)).Methods("GET")
 	s.Router.HandleFunc("/projects", middlewares.SetMiddlewareJSON(s.GetProjects)).Methods("GET")
+	s.Router.HandleFunc("/education", middlewares.SetMiddlewareJSON(s.GetEducation)).Methods("GET")
+	s.Router.HandleFunc("/hobbies", middlewares.SetMiddlewareJSON(s.GetEducation)).Methods("GET")
 	s.Router.HandleFunc("/skillareas", middlewares.SetMiddlewareJSON(s.GetSkillAreas)).Methods("GET")
+	s.Router.HandleFunc("/socials", middlewares.SetMiddlewareJSON(s.GetSocials)).Methods("GET")
 }
