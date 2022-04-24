@@ -13,9 +13,7 @@ type Socials struct {
 	ID               uint64    `gorm:"primary_key;auto_increment" json:"id"`
 	SocialsName        string    `gorm:"size:255;UNIQUE_INDEX:socialsindex;" json:"skill_name"`
 	SocialsTitle       string    `gorm:"size:255;" json:"skill_title"`
-	SocialsDescription string    `gorm:"size:255;" json:"skill_description"`
 	SocialsIcon        string    `gorm:"size:255;" json:"skill_icon"`
-	SocialsProgress    string    `gorm:"size:255;" json:"skill_progress"`
 	SocialsLinks       string    `gorm:"size:255;" json:"skill_links"`
 	User             User      `json:"-"`
 	UserID           uint32    `gorm:"UNIQUE_INDEX:socialsindex;not null" json:"user_id"`
@@ -27,9 +25,7 @@ func (p *Socials) Prepare() {
 	p.ID = 0
 	p.SocialsName = html.EscapeString(strings.TrimSpace(p.SocialsName))
 	p.SocialsTitle = html.EscapeString(strings.TrimSpace(p.SocialsTitle))
-	p.SocialsDescription = html.EscapeString(strings.TrimSpace(p.SocialsDescription))
 	p.SocialsIcon = html.EscapeString(strings.TrimSpace(p.SocialsIcon))
-	p.SocialsProgress = html.EscapeString(strings.TrimSpace(p.SocialsProgress))
 	p.SocialsLinks = html.EscapeString(strings.TrimSpace(p.SocialsLinks))
 	p.User = User{}
 	p.CreatedAt = time.Now()
@@ -149,7 +145,7 @@ func (p *Socials) UpdateASocials(db *gorm.DB) (*Socials, error) {
 
 	var err error
 
-	err = db.Debug().Model(&Socials{}).Where("id = ?", p.ID).Updates(Socials{SocialsName: p.SocialsName, SocialsDescription: p.SocialsDescription, SocialsTitle: p.SocialsTitle, SocialsIcon: p.SocialsIcon, SocialsProgress: p.SocialsProgress, SocialsLinks: p.SocialsLinks, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(&Socials{}).Where("id = ?", p.ID).Updates(Socials{SocialsName: p.SocialsName, SocialsTitle: p.SocialsTitle, SocialsIcon: p.SocialsIcon, SocialsLinks: p.SocialsLinks, UpdatedAt: time.Now()}).Error
 	if err != nil {
 		return &Socials{}, err
 	}

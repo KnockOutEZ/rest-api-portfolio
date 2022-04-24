@@ -10,17 +10,22 @@ import (
 )
 
 type Project struct {
-	ID               uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	ID                 uint64    `gorm:"primary_key;auto_increment" json:"id"`
 	ProjectName        string    `gorm:"size:255;UNIQUE_INDEX:projectindex;" json:"project_name"`
 	ProjectTitle       string    `gorm:"size:255;" json:"project_title"`
 	ProjectDescription string    `gorm:"size:255;" json:"project_description"`
 	ProjectIcon        string    `gorm:"size:255;" json:"project_icon"`
-	ProjectProgress    string    `gorm:"size:255;" json:"project_progress"`
+	ProjectImgs        string    `gorm:"size:255;" json:"project_imgs"`
 	ProjectLinks       string    `gorm:"size:255;" json:"project_links"`
-	User             User      `json:"-"`
-	UserID           uint32    `gorm:"UNIQUE_INDEX:projectindex;not null" json:"user_id"`
-	CreatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	ProjectSkillArea   string    `gorm:"size:255;" json:"project_skill_area"`
+	ProjectSkills      string    `gorm:"size:255;" json:"project_skills"`
+	ProjectTimeFrom    string    `gorm:"size:255;" json:"project__time_from"`
+	ProjectTimeTo      string    `gorm:"size:255;" json:"project_time_to"`
+	ProjectClient      string    `gorm:"size:255;" json:"project__client"`
+	User               User      `json:"-"`
+	UserID             uint32    `gorm:"UNIQUE_INDEX:projectindex;not null" json:"user_id"`
+	CreatedAt          time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt          time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (p *Project) Prepare() {
@@ -29,8 +34,13 @@ func (p *Project) Prepare() {
 	p.ProjectTitle = html.EscapeString(strings.TrimSpace(p.ProjectTitle))
 	p.ProjectDescription = html.EscapeString(strings.TrimSpace(p.ProjectDescription))
 	p.ProjectIcon = html.EscapeString(strings.TrimSpace(p.ProjectIcon))
-	p.ProjectProgress = html.EscapeString(strings.TrimSpace(p.ProjectProgress))
+	p.ProjectImgs = html.EscapeString(strings.TrimSpace(p.ProjectImgs))
 	p.ProjectLinks = html.EscapeString(strings.TrimSpace(p.ProjectLinks))
+	p.ProjectSkillArea = html.EscapeString(strings.TrimSpace(p.ProjectSkillArea))
+	p.ProjectSkills = html.EscapeString(strings.TrimSpace(p.ProjectSkills))
+	p.ProjectTimeFrom = html.EscapeString(strings.TrimSpace(p.ProjectTimeFrom))
+	p.ProjectTimeTo = html.EscapeString(strings.TrimSpace(p.ProjectTimeTo))
+	p.ProjectClient = html.EscapeString(strings.TrimSpace(p.ProjectClient))
 	p.User = User{}
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
@@ -148,8 +158,7 @@ func (p *Project) FindProjectByID(db *gorm.DB, pid uint64) (*Project, error) {
 func (p *Project) UpdateAProject(db *gorm.DB) (*Project, error) {
 
 	var err error
-
-	err = db.Debug().Model(&Project{}).Where("id = ?", p.ID).Updates(Project{ProjectName: p.ProjectName, ProjectDescription: p.ProjectDescription, ProjectTitle: p.ProjectTitle, ProjectIcon: p.ProjectIcon, ProjectProgress: p.ProjectProgress, ProjectLinks: p.ProjectLinks, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(&Project{}).Where("id = ?", p.ID).Updates(Project{ProjectName: p.ProjectName, ProjectDescription: p.ProjectDescription, ProjectTitle: p.ProjectTitle, ProjectIcon: p.ProjectIcon, ProjectImgs: p.ProjectImgs, ProjectLinks: p.ProjectLinks, ProjectSkillArea: p.ProjectSkillArea, ProjectSkills: p.ProjectSkills, ProjectTimeFrom: p.ProjectTimeFrom, ProjectTimeTo: p.ProjectTimeTo, ProjectClient: p.ProjectClient, UpdatedAt: time.Now()}).Error
 	if err != nil {
 		return &Project{}, err
 	}

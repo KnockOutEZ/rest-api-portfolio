@@ -10,27 +10,33 @@ import (
 )
 
 type ProfessionalExp struct {
-	ID               uint64    `gorm:"primary_key;auto_increment" json:"id"`
-	ProfessionalExpName        string    `gorm:"size:255;UNIQUE_INDEX:professionalexpindex;" json:"professional_exp_name"`
-	ProfessionalExpTitle       string    `gorm:"size:255;" json:"professional_exp_title"`
-	ProfessionalExpDescription string    `gorm:"size:255;" json:"professional_exp_description"`
-	ProfessionalExpIcon        string    `gorm:"size:255;" json:"professional_exp_icon"`
-	ProfessionalExpProgress    string    `gorm:"size:255;" json:"professional_exp_progress"`
-	ProfessionalExpLinks       string    `gorm:"size:255;" json:"professional_exp_links"`
-	User             User      `json:"-"`
-	UserID           uint32    `gorm:"UNIQUE_INDEX:professionalexpindex;not null" json:"user_id"`
-	CreatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	ID                     uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	InstitutionName        string    `gorm:"size:255;UNIQUE_INDEX:professionalexpindex;" json:"institution_name"`
+	InstitutionTitle       string    `gorm:"size:255;" json:"institution_title"`
+	InstitutionDescription string    `gorm:"size:255;" json:"institution_description"`
+	InstitutionLink        string    `gorm:"size:255;" json:"institution_link"`
+	ResponsibilityLevel    string    `gorm:"size:255;" json:"responsibility_level"`
+	Responsibilities       string    `gorm:"size:255;" json:"responsibilities"`
+	JobExperienceFrom      string    `gorm:"size:255;" json:"job_experience_from"`
+	JobExperienceTo        string    `gorm:"size:255;" json:"job_experience_to"`
+	JobMotivation          string    `gorm:"size:255;" json:"Job_motivation"`
+	User                   User      `json:"-"`
+	UserID                 uint32    `gorm:"UNIQUE_INDEX:professionalexpindex;not null" json:"user_id"`
+	CreatedAt              time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt              time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (p *ProfessionalExp) Prepare() {
 	p.ID = 0
-	p.ProfessionalExpName = html.EscapeString(strings.TrimSpace(p.ProfessionalExpName))
-	p.ProfessionalExpTitle = html.EscapeString(strings.TrimSpace(p.ProfessionalExpTitle))
-	p.ProfessionalExpDescription = html.EscapeString(strings.TrimSpace(p.ProfessionalExpDescription))
-	p.ProfessionalExpIcon = html.EscapeString(strings.TrimSpace(p.ProfessionalExpIcon))
-	p.ProfessionalExpProgress = html.EscapeString(strings.TrimSpace(p.ProfessionalExpProgress))
-	p.ProfessionalExpLinks = html.EscapeString(strings.TrimSpace(p.ProfessionalExpLinks))
+	p.InstitutionName = html.EscapeString(strings.TrimSpace(p.InstitutionName))
+	p.InstitutionTitle = html.EscapeString(strings.TrimSpace(p.InstitutionTitle))
+	p.InstitutionDescription = html.EscapeString(strings.TrimSpace(p.InstitutionDescription))
+	p.InstitutionLink = html.EscapeString(strings.TrimSpace(p.InstitutionLink))
+	p.ResponsibilityLevel = html.EscapeString(strings.TrimSpace(p.ResponsibilityLevel))
+	p.Responsibilities = html.EscapeString(strings.TrimSpace(p.Responsibilities))
+	p.JobExperienceFrom = html.EscapeString(strings.TrimSpace(p.JobExperienceFrom))
+	p.JobExperienceTo = html.EscapeString(strings.TrimSpace(p.JobExperienceTo))
+	p.JobMotivation = html.EscapeString(strings.TrimSpace(p.JobMotivation))
 	p.User = User{}
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
@@ -149,7 +155,7 @@ func (p *ProfessionalExp) UpdateAProfessionalExp(db *gorm.DB) (*ProfessionalExp,
 
 	var err error
 
-	err = db.Debug().Model(&ProfessionalExp{}).Where("id = ?", p.ID).Updates(ProfessionalExp{ProfessionalExpName: p.ProfessionalExpName, ProfessionalExpDescription: p.ProfessionalExpDescription, ProfessionalExpTitle: p.ProfessionalExpTitle, ProfessionalExpIcon: p.ProfessionalExpIcon, ProfessionalExpProgress: p.ProfessionalExpProgress, ProfessionalExpLinks: p.ProfessionalExpLinks, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(&ProfessionalExp{}).Where("id = ?", p.ID).Updates(ProfessionalExp{InstitutionName: p.InstitutionName, InstitutionDescription: p.InstitutionDescription, InstitutionTitle: p.InstitutionTitle, InstitutionLink: p.InstitutionLink, ResponsibilityLevel: p.ResponsibilityLevel, Responsibilities: p.Responsibilities, JobExperienceFrom: p.JobExperienceFrom, JobExperienceTo: p.JobExperienceTo, JobMotivation: p.JobMotivation, UpdatedAt: time.Now()}).Error
 	if err != nil {
 		return &ProfessionalExp{}, err
 	}

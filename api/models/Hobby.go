@@ -15,7 +15,6 @@ type Hobby struct {
 	HobbyTitle       string    `gorm:"size:255;" json:"hobby_title"`
 	HobbyDescription string    `gorm:"size:255;" json:"hobby_description"`
 	HobbyIcon        string    `gorm:"size:255;" json:"hobby_icon"`
-	HobbyProgress    string    `gorm:"size:255;" json:"hobby_progress"`
 	HobbyLinks       string    `gorm:"size:255;" json:"hobby_links"`
 	User             User      `json:"-"`
 	UserID           uint32    `gorm:"UNIQUE_INDEX:hobbyindex;not null" json:"user_id"`
@@ -29,7 +28,6 @@ func (p *Hobby) Prepare() {
 	p.HobbyTitle = html.EscapeString(strings.TrimSpace(p.HobbyTitle))
 	p.HobbyDescription = html.EscapeString(strings.TrimSpace(p.HobbyDescription))
 	p.HobbyIcon = html.EscapeString(strings.TrimSpace(p.HobbyIcon))
-	p.HobbyProgress = html.EscapeString(strings.TrimSpace(p.HobbyProgress))
 	p.HobbyLinks = html.EscapeString(strings.TrimSpace(p.HobbyLinks))
 	p.User = User{}
 	p.CreatedAt = time.Now()
@@ -149,7 +147,7 @@ func (p *Hobby) UpdateAHobby(db *gorm.DB) (*Hobby, error) {
 
 	var err error
 
-	err = db.Debug().Model(&Hobby{}).Where("id = ?", p.ID).Updates(Hobby{HobbyName: p.HobbyName, HobbyDescription: p.HobbyDescription, HobbyTitle: p.HobbyTitle, HobbyIcon: p.HobbyIcon, HobbyProgress: p.HobbyProgress, HobbyLinks: p.HobbyLinks, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(&Hobby{}).Where("id = ?", p.ID).Updates(Hobby{HobbyName: p.HobbyName, HobbyDescription: p.HobbyDescription, HobbyTitle: p.HobbyTitle, HobbyIcon: p.HobbyIcon, HobbyLinks: p.HobbyLinks, UpdatedAt: time.Now()}).Error
 	if err != nil {
 		return &Hobby{}, err
 	}

@@ -98,8 +98,8 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/skills", middlewares.SetMiddlewareJSON(s.GetSkills)).Methods("GET")
 	s.Router.HandleFunc("/professional", middlewares.SetMiddlewareJSON(s.GetProfessionalExp)).Methods("GET")
 	s.Router.HandleFunc("/projects", middlewares.SetMiddlewareJSON(s.GetProjects)).Methods("GET")
-	s.Router.HandleFunc("/education", middlewares.SetMiddlewareJSON(s.GetEducation)).Methods("GET")
-	s.Router.HandleFunc("/hobbies", middlewares.SetMiddlewareJSON(s.GetEducation)).Methods("GET")
+	s.Router.HandleFunc("/education", middlewares.SetMiddlewareJSON(s.GetEducations)).Methods("GET")
+	s.Router.HandleFunc("/hobbies", middlewares.SetMiddlewareJSON(s.GetHobbys)).Methods("GET")
 	s.Router.HandleFunc("/skillareas", middlewares.SetMiddlewareJSON(s.GetSkillAreas)).Methods("GET")
 	s.Router.HandleFunc("/socials", middlewares.SetMiddlewareJSON(s.GetSocials)).Methods("GET")
 }
