@@ -49,6 +49,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	server.Router = mux.NewRouter()
 
 	server.initializeRoutes()
+	server.Router.Use(mux.CORSMethodMiddleware(server.Router))
 }
 
 func (server *Server) Run(addr string) {
