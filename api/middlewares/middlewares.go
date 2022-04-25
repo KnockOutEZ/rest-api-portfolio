@@ -13,7 +13,7 @@ func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	}
 
-func SetMiddlewareJSON(next http.Handler) http.HandlerFunc {
+func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		enableCors(&w)
 		w.Header().Set("Content-Type", "application/json")
@@ -24,7 +24,7 @@ func SetMiddlewareJSON(next http.Handler) http.HandlerFunc {
 	}
 }
 
-func SetMiddlewareAuthentication(next http.Handler) http.HandlerFunc {
+func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		enableCors(&w)
 		err := auth.TokenValid(r)
