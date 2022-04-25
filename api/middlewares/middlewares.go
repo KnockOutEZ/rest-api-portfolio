@@ -21,6 +21,7 @@ func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
 		//till here
 		next.ServeHTTP(w, r)
+		w.WriteHeader(http.StatusCreated)
 	}
 }
 
@@ -37,5 +38,6 @@ func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
 		//till here
 		next.ServeHTTP(w, r)
+		w.WriteHeader(http.StatusCreated)
 	}
 }
