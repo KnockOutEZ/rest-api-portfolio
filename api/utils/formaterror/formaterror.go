@@ -22,5 +22,5 @@ func FormatError(err string) error {
 	if strings.Contains(err, "hashedPassword") {
 		return errors.New("Incorrect Password")
 	}
-	return errors.New("Incorrect Details or duplicate names.Try again with different data")
+	return errors.New("Duplicate Entry!!")
 }
