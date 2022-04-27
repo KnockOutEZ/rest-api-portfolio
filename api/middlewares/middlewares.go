@@ -19,6 +19,10 @@ func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 		//start cors
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS,PUT")
+		if r.Method == "OPTIONS" {
+                    return
+                }
 		//till here
 		next.ServeHTTP(w, r)
 	}
@@ -35,6 +39,10 @@ func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 		//start cors
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS,PUT")
+		if r.Method == "OPTIONS" {
+                    return
+                }
 		//till here
 		next.ServeHTTP(w, r)
 	}
