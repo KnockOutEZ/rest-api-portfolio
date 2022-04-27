@@ -56,6 +56,7 @@ func (server *Server) Run(addr string) {
 	c := cors.New(cors.Options{
 		
 		AllowedOrigins: []string{"https://knock-out-ez-github-io.vercel.app"},
+		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodDelete},
 		AllowCredentials: true,
 		// Enable Debugging for testing, consider disabling in production
 		Debug: true,
