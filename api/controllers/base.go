@@ -57,12 +57,12 @@ func (server *Server) Run(addr string) {
 		
 		// AllowedOrigins: []string{"http://localhost:3030/"},
 		AllowCredentials: true,
-		AllowedMethods: []string{"GET","POST", "OPTIONS","PUT","DELETE"},
+		// AllowedMethods: []string{"GET","POST", "OPTIONS","PUT","DELETE"},
     AllowedOrigins: []string{"*"},
-    AllowedHeaders: []string{"Content-Type","Bearer","Bearer ","content-type","Origin","Accept"},
+    // AllowedHeaders: []string{"Content-Type","Bearer","Bearer ","content-type","Origin","Accept"},
     OptionsPassthrough: true,
 		// Enable Debugging for testing, consider disabling in production
-		Debug: true,
+		// Debug: true,
 	})
 	handler := c.Handler(server.Router)
 	fmt.Println("\n Listening to port 8080")
