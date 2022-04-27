@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	"github.com/rs/cors"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
@@ -53,16 +52,15 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 }
 
 func (server *Server) Run(addr string) {
-	c := cors.New(cors.Options{
-		
-		AllowedOrigins: []string{"https://knock-out-ez-github-io.vercel.app"},
-		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodDelete},
-		AllowCredentials: true,
-		// Enable Debugging for testing, consider disabling in production
-		Debug: true,
-	})
-	handler := cors.Default().Handler(server.Router)
-	handler = c.Handler(handler)
+	// c := cors.New(cors.Options{
+
+	// 	AllowedOrigins: []string{"https://knock-out-ez-github-io.vercel.app"},
+	// 	AllowCredentials: true,
+	// 	// Enable Debugging for testing, consider disabling in production
+	// 	Debug: true,
+	// })
+	// handler := cors.Default().Handler(server.Router)
+	// handler = c.Handler(handler)
 	fmt.Println("\n Listening to port 8080")
-	log.Fatal(http.ListenAndServe(addr, handler))
+	log.Fatal(http.ListenAndServe(addr, server.Router))
 }
