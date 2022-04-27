@@ -59,7 +59,7 @@ func (server *Server) Run(addr string) {
 		AllowCredentials: true,
 		// AllowedMethods: []string{"GET","POST", "OPTIONS","PUT","DELETE"},
     AllowedOrigins: []string{"*"},
-    // AllowedHeaders: []string{"Content-Type","Bearer","Bearer ","content-type","Origin","Accept"},
+    AllowedHeaders: []string{"Content-Type","Authorization","Bearer","Bearer ","content-type","Origin","Accept"},
     OptionsPassthrough: true,
 		// Enable Debugging for testing, consider disabling in production
 		// Debug: true,
