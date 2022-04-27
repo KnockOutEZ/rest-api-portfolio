@@ -53,7 +53,15 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 }
 
 func (server *Server) Run(addr string) {
+	c := cors.New(cors.Options{
+		
+		AllowedOrigins: []string{"https://knock-out-ez-github-io.vercel.app"},
+		AllowCredentials: true,
+		// Enable Debugging for testing, consider disabling in production
+		Debug: true,
+	})
 	handler := cors.Default().Handler(server.Router)
+	handler = c.Handler(handler)
 	fmt.Println("\n Listening to port 8080")
 	log.Fatal(http.ListenAndServe(addr, handler))
 }
