@@ -16,4 +16,5 @@ require (
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/lib/pq v1.1.1 // indirect
+	github.com/rs/cors v1.8.2 // indirect
 )
