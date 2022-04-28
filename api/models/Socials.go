@@ -10,15 +10,16 @@ import (
 )
 
 type Socials struct {
-	ID               uint64    `gorm:"primary_key;auto_increment" json:"id"`
-	SocialsName        string    `gorm:"size:255;UNIQUE_INDEX:socialsindex;" json:"skill_name"`
-	SocialsTitle       string    `gorm:"size:255;" json:"skill_title"`
-	SocialsIcon        string    `gorm:"size:255;" json:"skill_icon"`
-	SocialsLinks       string    `gorm:"size:255;" json:"skill_links"`
-	User             User      `json:"-"`
-	UserID           uint32    `gorm:"UNIQUE_INDEX:socialsindex;not null" json:"user_id"`
-	CreatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt        time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	ID           uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	SocialsName  string    `gorm:"size:255;UNIQUE_INDEX:socialsindex;" json:"social_name"`
+	SocialsTitle string    `gorm:"size:255;" json:"social_title"`
+	SocialsIcon  string    `gorm:"size:255;" json:"social_icon"`
+	SocialsLinks string    `gorm:"size:255;" json:"social_links"`
+	SocialsDescription string    `gorm:"size:255;" json:"social_description"`
+	User         User      `json:"-"`
+	UserID       uint32    `gorm:"UNIQUE_INDEX:socialsindex;not null" json:"user_id"`
+	CreatedAt    time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt    time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (p *Socials) Prepare() {
@@ -27,6 +28,7 @@ func (p *Socials) Prepare() {
 	p.SocialsTitle = html.EscapeString(strings.TrimSpace(p.SocialsTitle))
 	p.SocialsIcon = html.EscapeString(strings.TrimSpace(p.SocialsIcon))
 	p.SocialsLinks = html.EscapeString(strings.TrimSpace(p.SocialsLinks))
+	p.SocialsDescription = html.EscapeString(strings.TrimSpace(p.SocialsDescription))
 	p.User = User{}
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
@@ -145,7 +147,7 @@ func (p *Socials) UpdateASocials(db *gorm.DB) (*Socials, error) {
 
 	var err error
 
-	err = db.Debug().Model(&Socials{}).Where("id = ?", p.ID).Updates(Socials{SocialsName: p.SocialsName, SocialsTitle: p.SocialsTitle, SocialsIcon: p.SocialsIcon, SocialsLinks: p.SocialsLinks, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(&Socials{}).Where("id = ?", p.ID).Updates(Socials{SocialsName: p.SocialsName, SocialsTitle: p.SocialsTitle, SocialsIcon: p.SocialsIcon, SocialsLinks: p.SocialsLinks,SocialsDescription: p.SocialsDescription, UpdatedAt: time.Now()}).Error
 	if err != nil {
 		return &Socials{}, err
 	}
