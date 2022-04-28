@@ -8,6 +8,7 @@ require (
 	github.com/gorilla/mux v1.6.2
 	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.4.0
+	github.com/rs/cors v1.8.2
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
 )
 
@@ -24,6 +25,5 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/rs/cors v1.8.2 // indirect
 	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
 )
