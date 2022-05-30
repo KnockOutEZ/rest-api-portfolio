@@ -61,7 +61,7 @@ func (p *Skill) SaveSkill(db *gorm.DB) (*Skill, error) {
 func (p *Skill) FindAllSkills(db *gorm.DB) (*[]Skill, error) {
 	var err error
 	skills := []Skill{}
-	err = db.Debug().Model(&Skill{}).Find(&skills).Error
+	err = db.Order("updated_at desc").Debug().Model(&Skill{}).Find(&skills).Error
 	if err != nil {
 		return &[]Skill{}, err
 	}
