@@ -80,7 +80,7 @@ func (p *Skill) FindAllSkills(db *gorm.DB) (*[]Skill, error) {
 func (p *Skill) GoFindAllMySkills(db *gorm.DB, uid uint64) (*[]Skill, error) {
 	var err error
 	skills := []Skill{}
-	err = db.Order("updated_at desc").Debug().Model(&Skill{}).Where("user_id = ?", uid).Limit(100).Find(&skills).Error
+	err = db.Order("updated_at asc").Debug().Model(&Skill{}).Where("user_id = ?", uid).Limit(100).Find(&skills).Error
 	if err != nil {
 		return &[]Skill{}, err
 	}
